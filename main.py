@@ -21,9 +21,13 @@ df1.dataframeName = 'weatherAUS.csv'
 df2 = df1.select_dtypes(include=[np.number])
 df2 = df2[[col for col in df2 if df2[col].nunique() > 1]]
 df3 = df2[['MinTemp','MaxTemp','Rainfall','Evaporation','WindGustSpeed','Sunshine']]
-#scatterMatrixAus = plt.figure('Scatterplot Matrix')
-#scatterMatrix = pd.plotting.scatter_matrix(df3, diagonal='kde')
-#plt.show()
+scatterMatrixAus = plt.title('Scatterplot Matrix')
+scatterMatrix = pd.plotting.scatter_matrix(df3, diagonal='hist')
+for ax in scatterMatrix.flatten():
+    ax.xaxis.label.set_rotation(15)
+    ax.yaxis.label.set_rotation(0)
+    ax.yaxis.label.set_ha('right')
+plt.show()
 
 
 #Graph correlation matrix
@@ -44,7 +48,7 @@ df3 = df2[['MinTemp','MaxTemp','Rainfall','Evaporation','WindGustSpeed','Sunshin
 
 
 #Drop duplicate values (there are none)
-print(df1.duplicated().sum())
+#print(df1.duplicated().sum())
 
 #Replace null values with median (numerical) and mode (categorical)
 #Numerical variables: MinTemp, MaxTemp, Rainfall, Evaporation, Sunshine, WindGustSpeed, WindSpeed9am, WindSpeed3pm, Humidity9am,
@@ -96,7 +100,9 @@ df1['WindDir3pm'] = df1['WindDir3pm'].replace(np.nan,modeWindDir3pm)
 df1['RainToday'] = df1['RainToday'].replace(np.nan,modeRainToday)
 df1['RainTomorrow'] = df1['RainTomorrow'].replace(np.nan,modeRainTomorrow)
 
-print(df1.isnull().sum())
+#print(df1.isnull().sum())
+
+
 
 #Scatterplots with colored dots for yes or no with rain tomorrow
 #fig, ax = plt.subplots()
@@ -105,13 +111,17 @@ print(df1.isnull().sum())
 #ax.set_xlabel('Humidity3pm')
 #ax.set_ylabel('Temp3pm')
 #ax.legend(colors)
+#plt.show()
 
-#fig, ax = plt.subplots()
+
 #colors= {'No':'Blue', 'Yes':'Green'}
+#fig, ax = plt.subplots()
 #pressVsHum = ax.scatter(df1['Humidity3pm'], df1['Pressure9am'], c=df1['RainTomorrow'].map(colors))
 #ax.set_xlabel('Humidity3pm')
 #ax.set_ylabel('Pressure9am')
-#ax.legend(colors)
+#ax.legend(colors.keys())
+#plt.show()
+
 
 #fig, ax = plt.subplots()
 #colors= {'No':'Blue', 'Yes':'Green'}
